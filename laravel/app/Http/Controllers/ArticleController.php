@@ -22,7 +22,14 @@ class ArticleController extends Controller
 
     function create()
     {
-        return view('articles.create');
+        // タグの数が膨大になってきた場合、数を制限したほうがよい
+        $allTagNames = Tag::all()->map(function ($tag){
+            return ['text' => $tag->name];
+        });
+
+        return view('articles.create', [
+            'allTagNames' => $allTagNames
+        ]);
     }
 
     public function store(ArticleRequest $request, Article $article)
@@ -46,9 +53,14 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
+        $allTagNames = Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
         return view('articles.edit', [
             'article' => $article,
-            'tagNames' => $tagNames
+            'tagNames' => $tagNames,
+            'allTagNames' => $allTagNames
             ]);
     }
 
