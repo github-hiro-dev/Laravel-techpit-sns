@@ -32,4 +32,12 @@ class Article extends Model
     {
         return $this->likes->count();
     }
+
+    public function tags(): BelongsToMany
+    {
+        // belongsToManyメソッドは通常第二引数に中間テーブル名を書くが、
+        // 中間テーブルの名前が二つのモデル名の単数形をアルファベット順に結合した名前であれば、省略可能。
+        // なので、likesメソッドのbelongsToManyは第二引数あり。
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
 }
